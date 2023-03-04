@@ -1,0 +1,39 @@
+import pandas as pd
+import streamlit as st
+import plotly.express as px
+from PIL import Image 
+###--- texet---
+st.set_page_config(page_title="Registre des médicaments", page_icon=":syringe:", layout="wide")
+st.header("Registre des médicaments 2022 :syringe:")
+st.subheader('Médicaments contre l hémophilie :pill:')
+
+### ---- load dataftrame--- 
+excel_file = 'Registre_médicaments.xlsx'
+sheet_name = 'Feuil1'
+
+df = pd.read_excel(excel_file,
+                sheet_name=sheet_name,
+                usecols='B:D',
+                header=3)
+            
+df_Quantité = pd.read_excel(excel_file,
+                              sheet_name= sheet_name,
+                              usecols='F:G',
+                              header=3)
+df_Quantité.dropna(inplace=True)
+
+st.dataframe(df)
+
+pie_chart = px.pie(df_Quantité,
+                title='Total No. of Quantité',
+                values='Quantité.1',
+                names='pharmaceutique')
+
+st.plotly_chart(pie_chart)
+#---- image
+image = Image.open('image/pharmacie.jpg')
+st.image(image,
+        caption='Designed by slidesgo / hamza taoussi',
+        use_column_width=True)
+
+                                                 
